@@ -1,5 +1,11 @@
 # TEAM-SAVEUS
 
+## 팀원 소개
+
+| ![팀원1](https://github.com/user-attachments/assets/ae71997f-a1a0-4e82-b834-0a2cbc962a57) | ![팀원2](https://github.com/user-attachments/assets/f5faa30a-f1be-4861-80e6-d1d1f13ce9ab) | ![팀원3](https://github.com/user-attachments/assets/ebc5b92d-4322-4a6f-aeb8-609d407108a3) | ![팀원4](https://github.com/user-attachments/assets/4796c59a-1533-441d-81e0-e3a9f4c88f61) |
+|:---:|:---:|:---:|:---:|
+| 김현우 | 서진만 | 정성엽 | 최재민 |
+
 ### 유스케이스 다이어그램 (Use Case Diagram)
 ![유즈케이스](https://github.com/user-attachments/assets/43fa2e76-211d-4bb1-a90c-0413fcd26918)
 
@@ -11,3 +17,7 @@
 
 ### 시스템 구조도
 ![시스템구조도](https://github.com/user-attachments/assets/e9d4e8bc-6668-4b2d-b318-b33ef269ea43)
+
+
+
+
