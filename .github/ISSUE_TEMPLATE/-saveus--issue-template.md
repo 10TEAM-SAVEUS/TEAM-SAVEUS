@@ -9,6 +9,7 @@ assignees: ''
 
 ## 🎈이슈내용
 - [ ]
+- [[SAVEUS] JIRA-ISSUE](URL)
 
 ## ✏ 수정사항 (선택사항)
 
