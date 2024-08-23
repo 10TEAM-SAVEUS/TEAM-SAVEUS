@@ -3,7 +3,7 @@ import Logo from "@/assets/footerlogo.svg";
 import Image from "next/image";
 import Footerbg from "@/assets/footerbg.svg";
 
-const Footer: React.FC = () => {
+function Footer() {
   return (
     <div className="w-full px-10 h-[324px] bg-[#faf8ff]  ">
       <div
@@ -31,12 +31,8 @@ const Footer: React.FC = () => {
                         대표자
                       </div>
                       <p className="text-variable-collection-text-gray-defalt relative w-fit mt-[-1.00px] [font-family:'Inter'] font-medium text-base text-center tracking-[-0.18px] leading-6 whitespace-nowrap">
-                        <span className="text-[#3f3f3f] tracking-[-0.03px]">
-                          염민호
-                        </span>
-                        <span className="text-[#969696] tracking-[-0.03px]">
-                          &nbsp;
-                        </span>
+                        <span className="text-[#3f3f3f] tracking-[-0.03px]">염민호</span>
+                        <span className="text-[#969696] tracking-[-0.03px]">&nbsp;</span>
                       </p>
                     </div>
                   </div>
@@ -82,8 +78,8 @@ const Footer: React.FC = () => {
             </div>
           </div>
           <div className="inline-flex flex-col items-end gap-3 relative flex-[0_0_auto]">
-            <div className="inline-flex items-start gap-8 relative flex-[0_0_auto]">
-              <div className="text-variable-collection-text-gray-defalt underline relative w-fit mt-[-1.00px] [font-family:'Inter'] font-medium text-base text-center tracking-[-0.18px] leading-6 whitespace-nowrap text-[#969696]">
+            <div className="inline-flex items-start gap-8 relative flex-[0_0_auto] ">
+              <div className="text-variable-collection-text-gray-defalt underline relative w-fit mt-[-1.00px] [font-family:'Inter'] font-medium text-base text-center tracking-[-0.18px] leading-6 whitespace-nowrap text-[#969696] ">
                 회사소개
               </div>
               <div className="text-variable-collection-text-gray-defalt underline relative w-fit mt-[-1.00px] [font-family:'Inter'] font-medium text-base text-center tracking-[-0.18px] leading-6 whitespace-nowrap text-[#969696]">
@@ -95,18 +91,14 @@ const Footer: React.FC = () => {
             </div>
             <p className="relative w-fit [font-family:'Inter'] font-medium text-variable-collection-text-gray-dark text-xs text-center tracking-[-0.13px] leading-[18px]">
               <span className="tracking-[-0.02px]">Ⓒ</span>
-              <span className="text-xl tracking-[-0.04px] leading-[30px]">
-                &nbsp;
-              </span>
-              <span className="text-base tracking-[-0.03px] leading-6">
-                Spacspace.All right reserved.
-              </span>
+              <span className="text-xl tracking-[-0.04px] leading-[30px]">&nbsp;</span>
+              <span className="text-base tracking-[-0.03px] leading-6 mr-[80px]">Spacspace.All right reserved.</span>
             </p>
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Footer;
