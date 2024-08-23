@@ -17,15 +17,12 @@ export default function LibraryList() {
   };
 
   return (
-    <div className="w-full flex justify-end mt-20 mb-[30px]">
-      <div className="w-[1590px] h-[44px] flex items-center justify-between relative">
-        <span className=" w-[106px] h-[39px] font-inter font-medium text-[32px] leading-[38.73px] tracking-[-0.01em] text-left">
-          Library
-        </span>
+    <div className="w-full flex justify-center mt-20 mb-[30px]">
+      <div className="w-[1300px] h-[44px] grid grid-cols-3 items-center">
+        <span className="font-inter font-medium text-[32px] leading-[38.73px] tracking-[-0.01em]">Library</span>
+        <div className="flex justify-center"></div>
         {/* 버튼 컨테이너 */}
-        <div className="flex items-center mr-[320px]">
-          {" "}
-          {/* 버튼 사이의 간격 설정 */}
+        <div className="flex justify-end space-x-3">
           {/* 첫 번째 버튼 */}
           <div className="relative">
             <button
@@ -42,7 +39,7 @@ export default function LibraryList() {
             )}
           </div>
           {/* 두 번째 버튼 */}
-          <div className="relative ">
+          <div className="relative">
             <button
               onClick={toggleList2}
               className="w-[89px] h-[44px] text-gray-700 rounded-lg border-2 border-gray-400"

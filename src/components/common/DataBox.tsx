@@ -68,7 +68,7 @@ export default function GridContainer() {
   ];
 
   return (
-    <div className="w-full max-w-[1300px] h-[648px] p-4 mx-auto grid grid-cols-4 gap-4 justify-items-center items-center">
+    <div className="w-full max-w-[1300px] h-[648px] p-4 mx-auto grid grid-cols-4 gap-4 justify-items-center items-center mb-[50px]">
       {dummyData.map((data, index) => (
         <DataBox key={index} label={data.label} number={data.number} description={data.description} />
       ))}

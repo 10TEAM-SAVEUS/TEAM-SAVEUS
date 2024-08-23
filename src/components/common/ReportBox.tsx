@@ -4,7 +4,7 @@ import React from "react";
 
 type LabelType = "취약성 보고서" | "취약성 경고" | "취약성 알림";
 
-export function ArticleBox({ label, title, description }: { label: LabelType; title: string; description: string }) {
+export function ReportBox({ label, title, description }: { label: LabelType; title: string; description: string }) {
   const labelClasses: { [key in LabelType]: { background: string; textColor: string } } = {
     "취약성 보고서": {
       background: "bg-[#F1F1F1]",
@@ -108,7 +108,7 @@ export default function GridContainer() {
   return (
     <div className="w-full max-w-[1300px] p-4 mx-auto grid grid-cols-3 gap-4 justify-items-center items-center">
       {dummyData.map((data, index) => (
-        <ArticleBox key={index} label={data.label} title={data.title} description={data.description} />
+        <ReportBox key={index} label={data.label} title={data.title} description={data.description} />
       ))}
     </div>
   );

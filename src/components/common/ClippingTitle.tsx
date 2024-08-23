@@ -6,7 +6,7 @@ export default function ClippingTitle() {
     <div className="w-full h-[79px] flex items-center justify-center relative mt-[40px]">
       <div className="flex items-center w-[368px] h-[79px] rounded-full p-5 border-4 border-solid border-[#6100FF] text-center">
         {/* 이미지와 텍스트를 나란히 배치 */}
-        <div className="flex-shrink-0 mr-4 ml-[2px]">
+        <button className="flex-shrink-0 mr-4 ml-[2px]">
           <Image
             src={Vector}
             alt="Vector"
@@ -14,7 +14,7 @@ export default function ClippingTitle() {
             height={28} // 이미지 높이
             className="rounded-full"
           />
-        </div>
+        </button>
         <span className="flex-grow font-inter text-[40px] font-normal leading-[48.41px] text-[#6100FF] tracking-[-0.01em] text-center ">
           Clipping Article
         </span>
