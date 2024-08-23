@@ -2,9 +2,9 @@ import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <div className="w-[1920px] h-[324px] bg-variable-collection-background-purple-light">
-      <div className="h-[324px] bg-[url(/footerbg.png)] bg-[100%_100%]">
-        <div className="flex w-[1760px] items-end justify-between relative top-[60px] left-20">
+    <div className="w-full px-10 h-[324px] bg-[#faf8ff]">
+      <div className="w-full h-[324px] bg-[url(/footerbg.png)] bg-[100%_100%]">
+        <div className="flex w-full items-end justify-between relative top-[60px]">
           <div className="inline-flex flex-col items-start gap-[38px] relative flex-[0_0_auto]">
             <svg
               width="120"
