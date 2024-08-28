@@ -3,8 +3,18 @@ import Image from "next/image";
 import CattleLeft from "@/assets/CattleLeft.svg";
 import DummyProfile from "@/assets/DummyProfile.png";
 import Footer from "@/components/common/Footer";
+import { cookies } from "next/headers";
+import { Octokit } from "octokit";
+export default async function Page() {
+  const cookiestore = cookies();
+  const token = cookiestore.get("user_token");
+  const octokit = new Octokit({
+    auth: token?.value,
+  });
 
-export default function Page() {
+  const {
+    data: { login },
+  } = await octokit.rest.users.getAuthenticated();
   return (
     <>
       <Header />

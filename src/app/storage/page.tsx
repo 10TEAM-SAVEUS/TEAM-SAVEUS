@@ -4,7 +4,9 @@ import Image from "next/image";
 import LibraryList from "@/components/LibraryList";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
+import { cookies } from "next/headers";
 
+import { Octokit, App } from "octokit";
 interface Folder {
   name: string;
   subtitle: string;
@@ -57,7 +59,22 @@ const FolderCard: FC<FolderCardProps> = ({ name, subtitle }) => (
   </div>
 );
 
-const MyFirst: FC = () => {
+const MyFirst: FC = async () => {
+  const cookiestore = cookies();
+  const token = cookiestore.get("user_token");
+
+  const octokit = new Octokit({
+    auth: token?.value,
+  });
+
+  const {
+    data: { login },
+  } = await octokit.rest.users.getAuthenticated();
+  console.log(login);
+  // const repo_list = await octokit.request("get/users/{username}/repos", {
+  //   username: login,
+  // });
+  // console.log(repo_list);
   return (
     <>
       <Header />
