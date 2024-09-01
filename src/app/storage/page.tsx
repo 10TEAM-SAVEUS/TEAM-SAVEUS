@@ -7,6 +7,8 @@ import Footer from "@/components/common/Footer";
 import { cookies } from "next/headers";
 
 import { Octokit, App } from "octokit";
+import { postRepoList } from "@/firebase/data_adding";
+import { TRepoList } from "@/type/type";
 interface Folder {
   name: string;
   subtitle: string;
@@ -68,13 +70,28 @@ const MyFirst: FC = async () => {
   });
 
   const {
-    data: { login },
+    data: { login, avatar_url, id },
   } = await octokit.rest.users.getAuthenticated();
-  console.log(login);
-  // const repo_list = await octokit.request("get/users/{username}/repos", {
-  //   username: login,
-  // });
-  // console.log(repo_list);
+  const username = login;
+  console.log(username, avatar_url);
+
+  const response = await octokit.request("/user/repos");
+  const data: [{ name: string; created_at: string }] = response.data;
+  const repolist: TRepoList = data.map(({ name, created_at }) => ({
+    name,
+    created_at,
+  }));
+
+  postRepoList(username, repolist);
+
+  // const repoContents = await octokit.request(
+  //   "GET /repos/{owner}/{repo}/contents/{path}",
+  //   {
+  //     owner: "foopky",
+  //     repo: "Seoul-Budongsan",
+  //     path: "",
+  //   }
+  // );
   return (
     <>
       <Header />
@@ -98,11 +115,16 @@ const MyFirst: FC = async () => {
             <section className="w-full flex items-center justify-between">
               {" "}
               <section className="flex justify-between items-center gap-3">
-                <Image src={DummyProfile} alt="ProfileImage" height={80} />
+                <Image
+                  src={avatar_url}
+                  alt="ProfileImage"
+                  height={80}
+                  width={80}
+                />
                 <section className="font-medium text-[28px] tracking-tight text-center">
                   {" "}
                   <h1>Hello,</h1>
-                  <h1>marry@gmail.com</h1>
+                  <h1>{username}</h1>
                 </section>
               </section>
               <button className="px-2 py-1 mt-2 rounded-lg border-[2px] border-[#6100FF] cursor-pointer flex items-center">
@@ -116,11 +138,11 @@ const MyFirst: FC = async () => {
             <div className="w-[1314px] flex flex-col items-center justify-center gap-[48px]">
               {" "}
               <div className="flex flex-wrap items-center justify-center gap-[24px]">
-                {folders.map((folder, index) => (
+                {repolist.map((repo, index) => (
                   <FolderCard
                     key={index}
-                    name={folder.name}
-                    subtitle={folder.subtitle}
+                    name={repo.name}
+                    subtitle={repo.created_at}
                   />
                 ))}
               </div>
