@@ -15,6 +15,8 @@ export default function Page() {
         client_secret: `${process.env.NEXT_PUBLIC_Client_secrets}`,
         code: `${search}`,
       };
+      console.log(`${process.env.NEXT_PUBLIC_Client_secrets}`);
+      console.log(params);
       fetch(`http://localhost:3000/api/request_token`, {
         method: "POST",
         body: JSON.stringify(params),

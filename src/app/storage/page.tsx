@@ -9,6 +9,7 @@ import { cookies } from "next/headers";
 import { Octokit, App } from "octokit";
 import { postRepoList } from "@/firebase/data_adding";
 import { TRepoList } from "@/type/type";
+import Link from "next/link";
 interface Folder {
   name: string;
   subtitle: string;
@@ -139,11 +140,12 @@ const MyFirst: FC = async () => {
               {" "}
               <div className="flex flex-wrap items-center justify-center gap-[24px]">
                 {repolist.map((repo, index) => (
-                  <FolderCard
+                  <Link
+                    href={`http://localhost:3000/ui_analyze/${repo.name}`}
                     key={index}
-                    name={repo.name}
-                    subtitle={repo.created_at}
-                  />
+                  >
+                    <FolderCard name={repo.name} subtitle={repo.created_at} />
+                  </Link>
                 ))}
               </div>
             </div>

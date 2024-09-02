@@ -1,7 +1,6 @@
 import DetectedTitle from "@/components/common/DetectedTitle";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
-// import FileList from "@/assets/FileList.svg";
 import Image from "next/image";
 import Choice from "@/assets/Choice.svg";
 import Folder from "@/assets/Folder.svg";
@@ -10,7 +9,7 @@ import FileList from "@/components/list/FileList";
 import { cookies } from "next/headers";
 import { Octokit } from "octokit";
 
-export default async function Page() {
+async function getFileList(reponame: string, path: string | undefined) {
   const cookiestore = cookies();
   const token = cookiestore.get("user_token");
 
@@ -19,18 +18,66 @@ export default async function Page() {
   });
 
   const {
-    data: { login, avatar_url, id },
+    data: { login },
   } = await octokit.rest.users.getAuthenticated();
   const username = login;
+  const newPath = path ? path : "";
   const repoContents = await octokit.request(
     "GET /repos/{owner}/{repo}/contents/{path}",
     {
       owner: username,
-      repo: "Seoul-Budongsan",
-      path: "",
+      repo: reponame,
+      path: newPath,
     }
   );
-  console.log(repoContents);
+  return repoContents.data;
+}
+
+async function getFile(download_url?: string) {
+  if (download_url) {
+    try {
+      const fileCodes = await fetch(download_url);
+
+      return await fileCodes.text();
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  }
+  return null;
+}
+
+export default async function Page({
+  searchParams,
+  params,
+}: {
+  searchParams: { path?: string; download_url?: string };
+  params: { reponame: string };
+}) {
+  // const cookiestore = cookies();
+  // const token = cookiestore.get("user_token");
+
+  // const octokit = new Octokit({
+  //   auth: token?.value,
+  // });
+
+  // const {
+  //   data: { login },
+  // } = await octokit.rest.users.getAuthenticated();
+  // const username = login;
+  // const repoContents = await octokit.request(
+  //   "GET /repos/{owner}/{repo}/contents/{path}",
+  //   {
+  //     owner: username,
+  //     repo: "Seoul-Budongsan",
+  //     path: "/src",
+  //   }
+  // );
+
+  // console.log(repoContents);
+  const fileCodes = await getFile(searchParams.download_url);
+  console.log(searchParams.path);
+  console.log(fileCodes);
   return (
     <>
       <Header />
@@ -68,19 +115,30 @@ export default async function Page() {
                 height={994}
                 className=""
               /> */}
-            <FileList files={repoContents} />
+
+            <FileList
+              files={await getFileList(params.reponame, searchParams.path)}
+            />
 
             <div className="w-[728px] h-[973px] border-[1px] rounded-lg p-[40px] gap-[32px] border-[#C3C3C3] flex flex-col justify-center items-center">
-              <Image
-                src={Choice}
-                alt="파일선택"
-                width={48}
-                height={48}
-                className="mb-[5px]"
-              />
-              <span className="text-[#6100FF] font-inter text-[32px] font-medium leading-[38.73px] tracking-[-0.01em] text-center">
-                파일을 선택하세요
-              </span>
+              {fileCodes ? (
+                <pre className="w-full h-full overflow-auto whitespace-pre-wrap text-left">
+                  {fileCodes}
+                </pre>
+              ) : (
+                <>
+                  <Image
+                    src={Choice}
+                    alt="파일선택"
+                    width={48}
+                    height={48}
+                    className="mb-[5px]"
+                  />
+                  <span className="text-[#6100FF] font-inter text-[32px] font-medium leading-[38.73px] tracking-[-0.01em] text-center">
+                    파일을 선택하세요
+                  </span>
+                </>
+              )}
             </div>
 
             <div className="w-[728px] h-[973px] border-[1px] rounded-lg p-[40px] gap-[32px] border-[#C3C3C3] flex flex-col justify-center items-center">
@@ -97,11 +155,11 @@ export default async function Page() {
             </div>
           </div>
 
-          <div className="flex justify-center items-center ml-[10px] mt-[20px] w-[246px] h-[56px] rounded-lg p-4 py-5 gap-[10px] bg-[#6100FF]">
+          <button className="flex justify-center items-center ml-[10px] mt-[20px] w-[246px] h-[56px] rounded-lg p-4 py-5 gap-[10px] bg-[#6100FF]">
             <span className="w-[100px] h-[30px] font-inter font-semibold text-[24px] tracking-[-0.01em] text-[white]">
               검사하기
             </span>
-          </div>
+          </button>
         </div>
       </div>
 

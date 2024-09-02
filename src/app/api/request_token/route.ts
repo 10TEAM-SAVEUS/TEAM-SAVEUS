@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     },
   });
   const user_token = await token.json();
-
+  console.log(user_token);
   if (user_token.access_token) {
     // 쿠키 설정
     const cookie = cookies();
