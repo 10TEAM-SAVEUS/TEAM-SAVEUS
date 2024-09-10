@@ -5,11 +5,11 @@ import LibraryList from "@/components/LibraryList";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import { cookies } from "next/headers";
-
 import { Octokit, App } from "octokit";
 import { postRepoList } from "@/firebase/data_adding";
 import { TRepoList } from "@/type/type";
 import Link from "next/link";
+import RepoInspect from "@/components/inspection/RepoInspect";
 interface Folder {
   name: string;
   subtitle: string;
@@ -55,8 +55,13 @@ const FolderCard: FC<FolderCardProps> = ({ name, subtitle }) => (
       <div className="text-[28px] tracking-[-0.01em] font-['Inter'] text-[#3f3f3f] whitespace-nowrap">
         {name}
       </div>
-      <div className="text-[16px] leading-[16px] tracking-[-0.01em] font-['Inter'] text-[#3f3f3f] whitespace-nowrap">
-        {subtitle}
+      <div className="flex flex-row items-end gap-[46px]">
+        <Link href={`http://localhost:3000/ui_analyze/${name}`}>
+          <RepoInspect />
+        </Link>
+        <div className="text-[16px] leading-[16px] tracking-[-0.01em] font-['Inter'] text-[#3f3f3f] whitespace-nowrap">
+          {subtitle}
+        </div>
       </div>
     </div>
   </div>
@@ -74,7 +79,6 @@ const MyFirst: FC = async () => {
     data: { login, avatar_url, id },
   } = await octokit.rest.users.getAuthenticated();
   const username = login;
-  console.log(username, avatar_url);
 
   const response = await octokit.request("/user/repos");
   const data: [{ name: string; created_at: string }] = response.data;
@@ -140,12 +144,11 @@ const MyFirst: FC = async () => {
               {" "}
               <div className="flex flex-wrap items-center justify-center gap-[24px]">
                 {repolist.map((repo, index) => (
-                  <Link
-                    href={`http://localhost:3000/ui_analyze/${repo.name}`}
+                  <FolderCard
                     key={index}
-                  >
-                    <FolderCard name={repo.name} subtitle={repo.created_at} />
-                  </Link>
+                    name={repo.name}
+                    subtitle={repo.created_at.slice(0, 10)}
+                  />
                 ))}
               </div>
             </div>
