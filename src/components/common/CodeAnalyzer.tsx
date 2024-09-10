@@ -1,8 +1,8 @@
-// components/CodeAnalyzer.tsx
 "use client"; // 이 라인을 추가
 import React, { useState } from "react";
 import useAnalysisStore from "@/app/store/analysisStore";
-
+import AlertUILoding from "./AlertUILoding";
+import ResultUI from "./ResultUI";
 interface CodeAnalyzerProps {
   code: string;
   className?: string;
@@ -12,9 +12,11 @@ const CodeAnalyzer: React.FC<CodeAnalyzerProps> = ({ code }) => {
   const setAnalysisResult = useAnalysisStore(
     (state) => state.setAnalysisResult
   );
+  const [isComplete, setIsComplete] = useState<boolean>(false);
   const setPostResult = useAnalysisStore((state) => state.postResultFile);
   const analyzeCode = async () => {
     setIsLoading(true);
+    setIsComplete(false);
     try {
       const response = await fetch("/api/analyzeCode", {
         method: "POST",
@@ -44,10 +46,19 @@ const CodeAnalyzer: React.FC<CodeAnalyzerProps> = ({ code }) => {
       <button
         className="w-[100px] h-[30px] font-inter font-semibold text-[24px] tracking-[-0.01em] text-[white]"
         onClick={analyzeCode}
-        disabled={isLoading}
       >
-        {isLoading ? "검사 중..." : "검사하기"}
+        검사하기
       </button>
+      {isLoading && (
+        <div className=" absolute top-[495px] right-[55px]">
+          <AlertUILoding />
+        </div>
+      )}
+      {!isLoading && isComplete && (
+        <div className="absolute top-[495px] right-[55px]">
+          <ResultUI />
+        </div>
+      )}
     </div>
   );
 };
