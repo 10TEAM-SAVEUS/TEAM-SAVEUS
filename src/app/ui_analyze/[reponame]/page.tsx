@@ -5,9 +5,26 @@ import Image from "next/image";
 import Choice from "@/assets/Choice.svg";
 import Folder from "@/assets/Folder.svg";
 import TopfileList from "@/assets/TopfileList.svg";
-import FileList from "@/components/list/FileList";
+import ContentsFileList from "@/components/list/ContentsFileList";
 import { cookies } from "next/headers";
 import { Octokit } from "octokit";
+import CodeAnalyzer from "@/components/common/CodeAnalyzer";
+import AnalysisResults from "@/components/common/AnalyzeResult";
+
+async function getUserName() {
+  const cookiestore = cookies();
+  const token = cookiestore.get("user_token");
+
+  const octokit = new Octokit({
+    auth: token?.value,
+  });
+
+  const {
+    data: { login },
+  } = await octokit.rest.users.getAuthenticated();
+  const username = login;
+  return username;
+}
 
 async function getFileList(reponame: string, path: string | undefined) {
   const cookiestore = cookies();
@@ -22,6 +39,7 @@ async function getFileList(reponame: string, path: string | undefined) {
   } = await octokit.rest.users.getAuthenticated();
   const username = login;
   const newPath = path ? path : "";
+
   const repoContents = await octokit.request(
     "GET /repos/{owner}/{repo}/contents/{path}",
     {
@@ -54,30 +72,7 @@ export default async function Page({
   searchParams: { path?: string; download_url?: string };
   params: { reponame: string };
 }) {
-  // const cookiestore = cookies();
-  // const token = cookiestore.get("user_token");
-
-  // const octokit = new Octokit({
-  //   auth: token?.value,
-  // });
-
-  // const {
-  //   data: { login },
-  // } = await octokit.rest.users.getAuthenticated();
-  // const username = login;
-  // const repoContents = await octokit.request(
-  //   "GET /repos/{owner}/{repo}/contents/{path}",
-  //   {
-  //     owner: username,
-  //     repo: "Seoul-Budongsan",
-  //     path: "/src",
-  //   }
-  // );
-
-  // console.log(repoContents);
   const fileCodes = await getFile(searchParams.download_url);
-  console.log(searchParams.path);
-  console.log(fileCodes);
   return (
     <>
       <Header />
@@ -108,19 +103,12 @@ export default async function Page({
           </div>
 
           <div className="flex ml-[13px] mt-[133px] gap-[32px]">
-            {/* <Image
-                src={FileList}
-                alt="파일리스트"
-                width={247}
-                height={994}
-                className=""
-              /> */}
-
-            <FileList
+            <ContentsFileList
               files={await getFileList(params.reponame, searchParams.path)}
+              username={await getUserName()}
             />
 
-            <div className="w-[728px] h-[973px] border-[1px] rounded-lg p-[40px] gap-[32px] border-[#C3C3C3] flex flex-col justify-center items-center">
+            <div className="w-[1453px] h-[973px] border-[1px] rounded-lg p-[40px] gap-[32px] border-[#C3C3C3] flex flex-col justify-center items-center">
               {fileCodes ? (
                 <pre className="w-full h-full overflow-auto whitespace-pre-wrap text-left">
                   {fileCodes}
@@ -139,27 +127,12 @@ export default async function Page({
                   </span>
                 </>
               )}
-            </div>
 
-            <div className="w-[728px] h-[973px] border-[1px] rounded-lg p-[40px] gap-[32px] border-[#C3C3C3] flex flex-col justify-center items-center">
-              <Image
-                src={Folder}
-                alt="폴더"
-                width={48}
-                height={48}
-                className="mb-[5px]"
-              />
-              <span className="font-inter text-[32px] font-medium leading-[38.73px] tracking-[-0.01em] text-center">
-                분석할 파일이 없어요!
-              </span>
+              <AnalysisResults />
             </div>
           </div>
 
-          <button className="flex justify-center items-center ml-[10px] mt-[20px] w-[246px] h-[56px] rounded-lg p-4 py-5 gap-[10px] bg-[#6100FF]">
-            <span className="w-[100px] h-[30px] font-inter font-semibold text-[24px] tracking-[-0.01em] text-[white]">
-              검사하기
-            </span>
-          </button>
+          <div>{fileCodes && <CodeAnalyzer code={fileCodes} />}</div>
         </div>
       </div>
 
