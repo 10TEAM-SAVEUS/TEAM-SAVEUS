@@ -1,4 +1,3 @@
-//C:\HYUNWOO\next\saveus\TEAM-SAVEUS\src\components\inspection\RepoInspect.tsx
 import logo from "/src/assets/logo.svg";
 import right from "/src/assets/Right.svg";
 import Image from "next/image";
