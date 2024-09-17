@@ -23,7 +23,7 @@ export const existAnalyzedCode = async (
     encodedPath,
     filename
   );
-  console.log("users", username, "repos", reponame, encodedPath, filename);
+  // console.log("users", username, "repos", reponame, encodedPath, filename);
   const docSnap = await getDoc(docRef);
   return docSnap.exists();
 };
@@ -44,7 +44,15 @@ export const getAnalyzedCode = async (
     encodedPath,
     filename
   );
-  console.log("users", username, "repos", reponame, encodedPath, filename);
+  console.log(
+    "getAnalizedCode:",
+    "users",
+    username,
+    "repos",
+    reponame,
+    encodedPath,
+    filename
+  );
   const docSnap = await getDoc(docRef);
   return docSnap.data();
 };

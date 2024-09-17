@@ -7,7 +7,7 @@ const AnalysisResults: React.FC<{ codes: string | null }> = ({ codes }) => {
   const analysisFromStore = useAnalysisStore((state) => state.analysisResult);
   useEffect(() => {
     if (codes) setAnalysisResult(codes);
-    else setAnalysisResult(analysisFromStore);
+    // else setAnalysisResult(analysisFromStore);
   }, [codes]);
 
   const parseResult = (result: string) => {

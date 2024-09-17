@@ -53,7 +53,7 @@ async function getFileList(reponame: string, path: string | undefined) {
   return repoContents.data;
 }
 
-async function getFile(download_url?: string) {
+export async function getFile(download_url?: string) {
   if (download_url) {
     try {
       const fileCodes = await fetch(download_url);
@@ -94,29 +94,13 @@ export default async function Page({
     searchParams.filename
   );
 
-  console.log(analyzedCode, "at ui_analyze");
+  // console.log(analyzedCode, "at ui_analyze");
   return (
     <>
       <Header />
       <div className="flex flex-col justify-center items-center">
         <div className="ml-[70px] w-[1760px] h-[1439px] top-[148px] left-[80px] gap-[45px]">
           <DetectedTitle widthClass="w-[1740px]" text="sfacweb - 1 " />
-
-          {/* <div className="w-[1740px] h-[107px] flex items-center gap-[28px]">
-            <div className="mt-[193px] ml-[10px] w-[1540px] h-[12px] bg-gray-200 rounded-full dark:bg-gray-700 relative">
-              <Image
-              src={TopfileList}
-              alt="상단파일리스트"
-              width={968}
-              height={35}
-              className="absolute top-[-65px]"
-              />
-              <div
-              className="bg-[#00C308] h-2.5 rounded-full"
-              style={{ width: "65%" }}
-              ></div>
-              </div>
-          </div> */}
 
           <div className="flex ml-[13px] mt-[45px] gap-[32px]">
             <div className="flex flex-col gap-[32px]">
@@ -156,9 +140,7 @@ export default async function Page({
             </div>
           </div>
 
-          <div>
-            {fileCodes && !analyzedCode && <CodeAnalyzer code={fileCodes} />}
-          </div>
+          <div>{fileCodes && !analyzedCode && <CodeAnalyzer />}</div>
         </div>
       </div>
 

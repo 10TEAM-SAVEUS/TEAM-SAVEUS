@@ -45,7 +45,7 @@ const ContentsFileList: React.FC<FileListProps> = ({ files, username }) => {
   const [isAnalyzed, setIsAnalyzed] = useState<boolean[]>([]);
 
   const [selectedFile, setSelectedFile] = useState<
-    { path: string; name: string }[]
+    { path: string; name: string; download_url: string }[]
   >([]);
 
   // 이미 분석한 코드인지 확인
@@ -72,17 +72,25 @@ const ContentsFileList: React.FC<FileListProps> = ({ files, username }) => {
     fetchAnalyzedStatus(); // useEffect 내에서 비동기 함수 호출
   }, [files, path]); // 종속성 배열: 파일 목록이나 repo 관련 정보가 변경되면 다시 실행
 
-  const handleFileClick = (file: FileObject, existFile: boolean) => {
-    if (reponame) setState(username, reponame, path, file.name);
+  useEffect(() => {
+    if (reponame) setState(username, reponame, selectedFile);
+    console.log(selectedFile);
+  }, [selectedFile]);
+
+  const handleFileClick = async (file: FileObject, existFile: boolean) => {
     if (existFile) {
       setSelectedFile(
-        selectedFile.filter(
-          ({ path, name }) => path !== file.path && name !== file.name
-        )
+        selectedFile.filter((selectedOne) => {
+          return !(selectedOne.path === path && selectedOne.name === file.name);
+        })
       );
-    } else {
-      setSelectedFile([...selectedFile, { path: file.path, name: file.name }]);
+    } else if (file.download_url) {
+      setSelectedFile([
+        ...selectedFile,
+        { path: path, name: file.name, download_url: file.download_url },
+      ]);
     }
+
     route.push(
       `http://localhost:3000/ui_analyze/${reponame}?path=${path}&filename=${file.name}&download_url=${file.download_url}`
     );
@@ -135,8 +143,10 @@ const ContentsFileList: React.FC<FileListProps> = ({ files, username }) => {
       )}
       {/* 파일리스트 */}
       {files.map((file: FileObject, index: number) => {
+        // 선택된 파일이 존재하는지 확인
         const existFile: boolean = selectedFile.find(
-          ({ path, name }) => path === file.path && name === file.name
+          (selectedOne) =>
+            selectedOne.path === path && selectedOne.name === file.name
         )
           ? true
           : false;
