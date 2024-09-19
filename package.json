@@ -11,7 +11,7 @@
   "dependencies": {
     "@octokit/types": "^13.5.0",
     "@tailwindcss/line-clamp": "^0.4.4",
-    "firebase": "^10.13.0",
+    "firebase": "^10.13.1",
     "next": "14.2.5",
     "octokit": "^4.0.2",
     "openai": "^4.61.0",
