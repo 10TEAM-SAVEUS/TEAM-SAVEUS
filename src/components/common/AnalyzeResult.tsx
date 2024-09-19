@@ -1,23 +1,33 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useAnalysisStore from "@/app/store/analysisStore";
 
-const AnalysisResults: React.FC = () => {
-  const analysisResult = useAnalysisStore((state) => state.analysisResult);
+const AnalysisResults: React.FC<{ codes: string | null }> = ({ codes }) => {
+  const [analysisResult, setAnalysisResult] = useState("");
+  const analysisFromStore = useAnalysisStore((state) => state.analysisResult);
+  useEffect(() => {
+    if (codes) setAnalysisResult(codes);
+    // else setAnalysisResult(analysisFromStore);
+  }, [codes]);
 
   const parseResult = (result: string) => {
     if (!result) return { vulnerabilities: "", fixes: "", exampleCode: "" };
-
+    console.log(result);
     const lines = result
       .split("\n")
       .map((line) => line.trim())
       .filter((line) => line.length > 0);
 
     const vulnerabilities =
-      lines.find((line) => line.startsWith("1. "))?.replace(/^1\. /, "") || "취약점 정보가 없습니다.";
-    const fixes = lines.find((line) => line.startsWith("2. "))?.replace(/^2\. /, "") || "수정 방안 정보가 없습니다.";
+      lines.find((line) => line.startsWith("1. "))?.replace(/^1\. /, "") ||
+      "취약점 정보가 없습니다.";
+    const fixes =
+      lines.find((line) => line.startsWith("2. "))?.replace(/^2\. /, "") ||
+      "수정 방안 정보가 없습니다.";
     const exampleCode =
-      lines.slice(lines.findIndex((line) => line.startsWith("3. ")) + 1).join("\n") || "수정된 코드 정보가 없습니다.";
+      lines
+        .slice(lines.findIndex((line) => line.startsWith("3. ")) + 1)
+        .join("\n") || "수정된 코드 정보가 없습니다.";
 
     return { vulnerabilities, fixes, exampleCode };
   };
@@ -37,19 +47,29 @@ const AnalysisResults: React.FC = () => {
   return (
     <div className="analysis-results bg-[#FFF3F3] p-4 rounded-lg  overflow-auto">
       <div className="mb-4">
-        <h2 className="text-[24px] font-semibold text-[#FF6D6D]">1. 주요 취약점</h2>
-        <p className="text-base text-[#3f3f3f] font-medium whitespace-pre-wrap">{vulnerabilities}</p>
+        <h2 className="text-[24px] font-semibold text-[#FF6D6D]">
+          1. 주요 취약점
+        </h2>
+        <p className="text-base text-[#3f3f3f] font-medium whitespace-pre-wrap">
+          {vulnerabilities}
+        </p>
       </div>
 
       <div className="mb-4">
         <h2 className="text-lg text-[#3f3f3f] font-semibold">2. 수정 제안</h2>
-        <p className="text-base font-semibold text-[#3f3f3f] whitespace-pre-wrap">{fixes}</p>
+        <p className="text-base font-semibold text-[#3f3f3f] whitespace-pre-wrap">
+          {fixes}
+        </p>
       </div>
 
       <div className="mb-4">
-        <h2 className="text-[#3f3f3f] font-semibold text-[24px]">3. 수정된 코드</h2>
+        <h2 className="text-[#3f3f3f] font-semibold text-[24px]">
+          3. 수정된 코드
+        </h2>
         <div className="bg-[#444444] rounded-lg relative">
-          <pre className="text-white text-[18px] font-medium p-2 rounded-md whitespace-pre-wrap">{exampleCode}</pre>
+          <pre className="text-white text-[18px] font-medium p-2 rounded-md whitespace-pre-wrap">
+            {exampleCode}
+          </pre>
           <button
             onClick={copyToClipboard}
             style={{ position: "absolute", right: "10px", top: "10px" }}
@@ -68,7 +88,9 @@ const AnalysisResults: React.FC = () => {
                 fill="#D6D6D6"
               />
             </svg>
-            <div className="text-[18px] font-medium leading-6 text-[#d6d6d6]">코드복사</div>
+            <div className="text-[18px] font-medium leading-6 text-[#d6d6d6]">
+              코드복사
+            </div>
           </button>
         </div>
       </div>
