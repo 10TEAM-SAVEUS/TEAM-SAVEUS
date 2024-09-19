@@ -1,4 +1,3 @@
-// C:\HYUNWOO\next\saveus\TEAM-SAVEUS\src\components\storage\ProfileLinkSection.tsx
 "use client"; // 클라이언트 전용 컴포넌트
 
 import { useRouter } from "next/navigation";

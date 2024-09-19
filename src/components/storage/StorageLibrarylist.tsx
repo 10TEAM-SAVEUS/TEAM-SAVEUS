@@ -1,4 +1,3 @@
-// C:\HYUNWOO\next\saveus\TEAM-SAVEUS\src\components\common\LibraryList.tsx
 "use client";
 
 import { useState } from "react";
@@ -9,15 +8,15 @@ interface LibraryListProps {
 
 export default function LibraryList({ setFilterType }: LibraryListProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState("Type"); // 드롭다운 이름을 "Type"으로 설정
+  const [selectedType, setSelectedType] = useState("Type");
 
   const toggleList = () => {
     setIsOpen(!isOpen);
   };
 
   const handleTypeSelect = (type: string) => {
-    setSelectedType("Type"); // 드롭다운의 선택된 옵션에 상관없이 이름을 유지
-    setFilterType(type); // 부모 컴포넌트로 선택한 타입 전달
+    setSelectedType("Type");
+    setFilterType(type);
     setIsOpen(false);
   };
 
@@ -29,7 +28,6 @@ export default function LibraryList({ setFilterType }: LibraryListProps) {
         </span>
         <div className="flex justify-center"></div>
         <div className="flex justify-end space-x-3">
-          {/* 첫 번째 버튼 */}
           <div className="relative">
             <button
               onClick={toggleList}
