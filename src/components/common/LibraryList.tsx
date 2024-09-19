@@ -19,7 +19,9 @@ export default function LibraryList() {
   return (
     <div className="w-full flex justify-center mt-20 mb-[30px]">
       <div className="w-[1300px] h-[44px] grid grid-cols-3 items-center">
-        <span className="font-inter font-medium text-[32px] leading-[38.73px] tracking-[-0.01em]">Library</span>
+        <span className="font-inter font-medium text-[32px] leading-[38.73px] tracking-[-0.01em]">
+          Library
+        </span>
         <div className="flex justify-center"></div>
         {/* 버튼 컨테이너 */}
         <div className="flex justify-end space-x-3">

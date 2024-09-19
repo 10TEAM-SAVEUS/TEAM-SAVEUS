@@ -1,4 +1,4 @@
-import Image from "next/image";
+// C:\HYUNWOO\next\saveus\TEAM-SAVEUS\src\app\storage\page.tsx
 import LibraryList from "@/components/common/LibraryList";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 import { Octokit } from "octokit";
 import { postRepoList } from "@/firebase/data_adding";
 import dynamic from "next/dynamic"; // 동적 import 사용
-import Bg from "@/assets/group.svg";
+import ProfileLinkSection from "@/components/storage/ProfileLinkSection"; // 클라이언트 컴포넌트
 
 // FolderCardPaginationClient를 동적으로 import되도록 함
 const FolderCardPaginationClient = dynamic(
@@ -27,13 +27,15 @@ const Storage = async () => {
   const {
     data: { login, avatar_url },
   } = await octokit.rest.users.getAuthenticated();
-  const username = login; // 'username' 값을 가져옴
+  const username = login;
 
   const response = await octokit.request("/user/repos");
-  const data: [{ name: string; created_at: string }] = response.data;
-  const repolist = data.map(({ name, created_at }) => ({
+  const data: [{ name: string; created_at: string; status: string }] =
+    response.data; // status 필드 추가
+  const repolist = data.map(({ name, created_at, status }) => ({
     name,
     created_at,
+    status, // 상태 필드 추가
   }));
 
   await postRepoList(username, repolist);
@@ -54,36 +56,11 @@ const Storage = async () => {
             </div>
           </div>
           <div className="w-full max-w-[1314px] flex flex-col items-center justify-center gap-[80px]">
-            <section className="w-full flex items-center justify-between p-8 bg-[#f2f2f2] rounded-[42px]">
-              <section className="flex items-center gap-11">
-                <Image
-                  src={avatar_url}
-                  alt="ProfileImage"
-                  height={107}
-                  width={107}
-                  className="object-cover rounded-full"
-                />
-                <section className="font-['Inter'] font-medium text-[40px] tracking-tight text-[#343330]">
-                  <h1 className="relative w-fit [font-family:'Inter',Helvetica] font-medium text-variable-collection-text-gray-dark text-[40px] tracking-[-0.40px] leading-[normal]">
-                    Hello,
-                    <br />
-                    {username}
-                  </h1>
-                </section>
-              </section>
-              <button className="px-2 py-1 mt-2 rounded-lg border-[2px] border-[#6100FF] cursor-pointer flex items-center">
-                <span className="font-inter text-[16px] text-[#6100ff] leading-[29px] tracking-[-0.01em] flex items-center justify-between">
-                  프로필 정보
-                </span>
-              </button>
-            </section>
-
-            <LibraryList />
-            {/* 클라이언트 컴포넌트로 데이터 전달 */}
+            <ProfileLinkSection avatar_url={avatar_url} username={username} />
             <FolderCardPaginationClient
-              repos={repolist} // 서버에서 받은 저장소 목록
-              username={username} // GitHub 사용자 이름
-              itemsPerPage={12} // 페이지당 12개의 항목
+              repos={repolist} // 필터링된 저장소 목록 전달
+              username={username}
+              itemsPerPage={12}
             />
           </div>
         </div>

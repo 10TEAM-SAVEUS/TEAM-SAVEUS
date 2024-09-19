@@ -1,3 +1,4 @@
+// C:\HYUNWOO\next\saveus\TEAM-SAVEUS\src\components\storage\FolderCardClient.tsx
 "use client"; // 클라이언트 컴포넌트로 설정
 import { FC, useState, useEffect } from "react";
 import Link from "next/link";
@@ -11,12 +12,14 @@ interface FolderCardProps {
   name: string;
   subtitle: string;
   username: string; // username도 추가
+  updateStatus: (name: string, status: string) => void; // 상태 업데이트 함수
 }
 
 const FolderCardClient: FC<FolderCardProps> = ({
   name,
   subtitle,
   username,
+  updateStatus, // 상태 업데이트 함수 추가
 }) => {
   const [fileExists, setFileExists] = useState(false);
 
@@ -25,10 +28,11 @@ const FolderCardClient: FC<FolderCardProps> = ({
     const checkFileStatus = async () => {
       const exists = await checkIfRepoHasFiles(username, name); // Firestore에서 파일 존재 여부 확인
       setFileExists(exists);
+      updateStatus(name, exists ? "검사완료" : "검사중"); // 상태 업데이트
     };
 
     checkFileStatus();
-  }, [name, username]);
+  }, [name, username, updateStatus]);
 
   // name(reponame)이 20자 이상이면 ...으로 표시
   const truncatedName = name.length > 20 ? `${name.slice(0, 20)}...` : name;
