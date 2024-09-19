@@ -6,6 +6,7 @@ export const getData = async () => {
   const docSnap = await getDoc(docRef);
   return docSnap.data();
 };
+<<<<<<< HEAD
 
 export const existAnalyzedCode = async (
   username: string,
@@ -56,3 +57,5 @@ export const getAnalyzedCode = async (
   const docSnap = await getDoc(docRef);
   return docSnap.data();
 };
+=======
+>>>>>>> develop
