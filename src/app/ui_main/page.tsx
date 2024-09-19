@@ -1,3 +1,4 @@
+"use server";
 import Image from "next/image";
 
 import Direction from "/src/assets/landing/Direction.svg";
@@ -11,8 +12,16 @@ import Swiping from "@/components/landing/Swiping";
 import Footer from "@/components/common/Footer";
 import MainBg from "@/components/common/MainBg";
 import Header from "@/components/common/Header";
+import Link from "next/link";
+import { cookies } from "next/headers";
+export default async function page() {
+  let hasToken = false;
+  const cookiestore = cookies();
+  const token = cookiestore.get("user_token");
+  if (token?.value !== undefined) {
+    hasToken = true;
+  } else hasToken = false;
 
-export default function page() {
   return (
     <>
       <button className="fixed bottom-10 right-10 z-[10] bg-white rounded-full opacity-80">
@@ -38,7 +47,13 @@ export default function page() {
         <div className="relative">
           <button className=" h-[56px] top-5 left-[57px] p-4 rounded-full bg-[#6100FF] cursor-pointer flex items-center justify-center gap-2.5">
             <span className=" h-[29px] font-inter text-[24px] font-light leading-[29px] tracking-[-0.01em] text-white">
-              Login
+              {hasToken ? (
+                <Link href="http://localhost:3000/storage">
+                  파일 분석하러가기
+                </Link>
+              ) : (
+                <Link href="http://localhost:3000/ui_login">Login</Link>
+              )}
             </span>
           </button>
         </div>
