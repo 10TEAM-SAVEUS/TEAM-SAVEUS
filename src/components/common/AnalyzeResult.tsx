@@ -45,7 +45,7 @@ const AnalysisResults: React.FC<{ codes: string | null }> = ({ codes }) => {
   };
 
   return (
-    <div className="analysis-results bg-[#FFF3F3] p-4 rounded-lg overflow-auto">
+    <div className="analysis-results bg-[#FFF3F3] p-4 rounded-lg  overflow-auto">
       <div className="mb-4">
         <h2 className="text-[24px] font-semibold text-[#FF6D6D]">
           1. 주요 취약점
