@@ -35,7 +35,7 @@ const AnalysisResults: React.FC = () => {
   };
 
   return (
-    <div className="analysis-results bg-[#FFF3F3] p-4 rounded-lg overflow-auto">
+    <div className="analysis-results bg-[#FFF3F3] p-4 rounded-lg  overflow-auto">
       <div className="mb-4">
         <h2 className="text-[24px] font-semibold text-[#FF6D6D]">1. 주요 취약점</h2>
         <p className="text-base text-[#3f3f3f] font-medium whitespace-pre-wrap">{vulnerabilities}</p>
