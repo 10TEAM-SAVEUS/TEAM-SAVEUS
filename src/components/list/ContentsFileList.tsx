@@ -1,26 +1,16 @@
 "use client";
 
-<<<<<<< HEAD
-=======
-import { OctokitResponse } from "@octokit/types";
->>>>>>> develop
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 import dirimg from "/src/assets/filelist/dir.svg";
 import fileimg from "/src/assets/filelist/file.svg";
 import titleimg from "/src/assets/filelist/title.svg";
-<<<<<<< HEAD
 import Checker from "/src/assets/filelist/Checker.svg";
 import CheckedCircle from "/src/assets/filelist/CheckedCircle.svg";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import useAnalysisStore from "@/app/store/analysisStore";
 import { existAnalyzedCode } from "@/firebase/data_getting";
-=======
-import { useParams, useRouter } from "next/navigation";
-import useAnalysisStore from "@/app/store/analysisStore";
-
->>>>>>> develop
 interface FileObject {
   type: "dir" | "file" | "submodule" | "symlink";
   size: number;
@@ -43,7 +33,6 @@ interface FileListProps {
   files: FileObject[];
   username: string;
 }
-<<<<<<< HEAD
 
 const ContentsFileList: React.FC<FileListProps> = ({ files, username }) => {
   const route = useRouter();
@@ -111,26 +100,6 @@ const ContentsFileList: React.FC<FileListProps> = ({ files, username }) => {
     route.push(`http://localhost:3000/ui_analyze/${reponame}?path=${path}`);
   };
 
-=======
-// const FileList: React.FC<FileListProps>
-const ContentsFileList: React.FC<FileListProps> = ({ files, username }) => {
-  const route = useRouter();
-
-  const reponame = useParams()?.reponame.toString();
-  const [path, setPath] = useState("");
-  const [selectedFile, setSelectedFile] = useState<number | null>(null);
-  const setState = useAnalysisStore((state) => state.setFileInfo);
-
-  const handleFileClick = (file: FileObject) => {
-    if (reponame) setState(username, reponame, path, file.name);
-    route.push(
-      `http://localhost:3000/ui_analyze/${reponame}?path=${path}&download_url=${file.download_url}`
-    );
-  };
-  const handleDoubleClick = (path: string) => {
-    route.push(`http://localhost:3000/ui_analyze/${reponame}?path=${path}`);
-  };
->>>>>>> develop
   const handleGoBackClick = async () => {
     let isSliced = false;
     let newPath = path;
@@ -148,39 +117,22 @@ const ContentsFileList: React.FC<FileListProps> = ({ files, username }) => {
       newPath = ""; // newPath를 빈 문자열로 설정
     }
 
-<<<<<<< HEAD
-=======
-    // 상태 업데이트
-    setPath(newPath);
-
->>>>>>> develop
     // 경로 변경 후 route.push 비동기 실행
     await route.push(
       `http://localhost:3000/ui_analyze/${reponame}?path=${newPath}`
     );
   };
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
   return (
     <div className="box-border flex flex-col items-end w-[247px] h-full p-0 border border-gray-300 rounded-lg overflow-auto">
       <div className="flex flex-row justify-between text-[20px] font-normal text-[#3f3f3f] bg-[#faf8ff] w-full p-4 border-x-gray-300 border-transparent cursor-pointer">
         {"Files"}
         <Image src={titleimg} alt="titleimg" />
       </div>
-<<<<<<< HEAD
       {/* 상위 폴더 이동 */}
       {path && (
         <>
           <div
             className="flex flex-row gap-2 text-[16px] text-[#3f3f3f] w-full p-2 border-x-gray-300 border-transparent cursor-pointer bg-white hover:bg-[#faf8ff]"
-=======
-      {path && (
-        <>
-          <div
-            className="flex flex-row gap-2 text-[16px] text-[#3f3f3f] w-full p-2 border-x-gray-300 border-transparent cursor-pointer bg-[#f2ebff]hover:bg-[#faf8ff]"
->>>>>>> develop
             onClick={handleGoBackClick}
           >
             <Image src={dirimg} alt="dirimg"></Image>
@@ -188,7 +140,6 @@ const ContentsFileList: React.FC<FileListProps> = ({ files, username }) => {
           </div>
         </>
       )}
-<<<<<<< HEAD
       {/* 파일리스트 */}
       {files.map((file: FileObject, index: number) => {
         // 선택된 파일이 존재하는지 확인
@@ -226,34 +177,6 @@ const ContentsFileList: React.FC<FileListProps> = ({ files, username }) => {
           </div>
         );
       })}
-=======
-      {files.map((file: FileObject, index: number) => (
-        <div
-          key={index}
-          className={`flex flex-row gap-2 text-[16px] text-[#3f3f3f] w-full p-2 border-x-gray-300 border-transparent cursor-pointer ${
-            selectedFile === index ? "bg-[#f2ebff]" : "hover:bg-[#faf8ff]"
-          }`}
-          onClick={() => {
-            setSelectedFile(index);
-            if (file.type === "file") {
-              if (file.download_url) handleFileClick(file);
-            }
-          }}
-          onDoubleClick={() => {
-            if (file.type === "dir") {
-              handleDoubleClick(file.path);
-              setPath(file.path);
-            }
-          }}
-        >
-          <Image
-            src={file.type === "dir" ? dirimg : fileimg}
-            alt="filetype"
-          ></Image>
-          {file.name}
-        </div>
-      ))}
->>>>>>> develop
     </div>
   );
 };
